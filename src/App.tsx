@@ -7,30 +7,36 @@ import { tools, categories } from './data/tools';
 
 export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeCategory, setActiveCategory] = useState('all');
+  const [activeCategory, setActiveCategory] = useState(categories[0]?.id ?? '');
+
+  const q = searchQuery.toLowerCase().trim();
+
+  const matchesSearch = (tool: (typeof tools)[number]) => {
+    if (!q) return true;
+    return (
+      tool.name.toLowerCase().includes(q) ||
+      tool.description.toLowerCase().includes(q) ||
+      tool.tags.some((tag) => tag.toLowerCase().includes(q))
+    );
+  };
 
   const categoryCounts = useMemo(() => {
     const counts: Record<string, number> = {};
     categories.forEach((cat) => {
-      if (cat.id === 'all') return;
       counts[cat.id] = tools.filter((t) => t.category === cat.id).length;
     });
     return counts;
   }, []);
 
-  const filteredTools = useMemo(() => {
-    const q = searchQuery.toLowerCase().trim();
-    return tools.filter((tool) => {
-      const matchesCategory = activeCategory === 'all' || tool.category === activeCategory;
-      if (!matchesCategory) return false;
-      if (!q) return true;
-      return (
-        tool.name.toLowerCase().includes(q) ||
-        tool.description.toLowerCase().includes(q) ||
-        tool.tags.some((tag) => tag.toLowerCase().includes(q))
-      );
+  const toolsByCategory = useMemo(() => {
+    const grouped: Record<string, typeof tools> = {};
+    categories.forEach((cat) => {
+      grouped[cat.id] = tools.filter((tool) => tool.category === cat.id && matchesSearch(tool));
     });
-  }, [searchQuery, activeCategory]);
+    return grouped;
+  }, [q]);
+
+  const filteredAllTools = useMemo(() => tools.filter(matchesSearch), [q]);
 
   return (
     <div className="min-h-screen bg-void-dark text-slate-100">
@@ -47,7 +53,8 @@ export default function App() {
         activeCategory={activeCategory}
         onCategoryChange={(id) => {
           setActiveCategory(id);
-          setSearchQuery('');
+          const target = document.getElementById(`section-${id}`);
+          target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }}
         counts={categoryCounts}
       />
@@ -55,15 +62,11 @@ export default function App() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-6 flex items-center justify-between">
           <div>
-            <h2 className="text-lg font-semibold text-slate-200">
-              {activeCategory === 'all'
-                ? '全部工具'
-                : categories.find((c) => c.id === activeCategory)?.label}
-            </h2>
+            <h2 className="text-lg font-semibold text-slate-200">分类导航</h2>
             <p className="text-sm text-slate-500 mt-0.5">
               {searchQuery
-                ? `搜索「${searchQuery}」找到 ${filteredTools.length} 个工具`
-                : `共 ${filteredTools.length} 个工具`}
+                ? `搜索「${searchQuery}」找到 ${filteredAllTools.length} 个工具`
+                : `共 ${tools.length} 个工具`}
             </p>
           </div>
           {searchQuery && (
@@ -76,7 +79,31 @@ export default function App() {
           )}
         </div>
 
-        <ToolGrid tools={filteredTools} searchQuery={searchQuery} />
+        <div className="space-y-10">
+          {categories.map((category) => (
+            <section key={category.id} id={`section-${category.id}`} className="scroll-mt-36">
+              <div className="mb-4">
+                <h3 className="text-base sm:text-lg font-semibold text-slate-200">
+                  {category.icon} {category.label}
+                </h3>
+                <p className="text-xs text-slate-500 mt-1">
+                  {toolsByCategory[category.id]?.length ?? 0} 个工具
+                </p>
+              </div>
+              <ToolGrid tools={toolsByCategory[category.id] ?? []} searchQuery={searchQuery} />
+            </section>
+          ))}
+
+          <section id="section-all-tools" className="scroll-mt-36 pt-2">
+            <div className="mb-4">
+              <h3 className="text-base sm:text-lg font-semibold text-slate-200">🌟 全部工具卡片</h3>
+              <p className="text-xs text-slate-500 mt-1">
+                {filteredAllTools.length} 个工具
+              </p>
+            </div>
+            <ToolGrid tools={filteredAllTools} searchQuery={searchQuery} />
+          </section>
+        </div>
       </main>
 
       <Footer />

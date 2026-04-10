@@ -1,7 +1,6 @@
 import { Tool, Category } from '../types';
 
 export const categories: Category[] = [
-  { id: 'all', label: '全部', icon: '🌟' },
   { id: 'rotation', label: '提升DPS/治疗量', icon: '⚔️' },
   { id: 'progress', label: '大秘境/战绩/进度', icon: '📈' },
   { id: 'addons', label: '插件和UI工具', icon: '🔧' },

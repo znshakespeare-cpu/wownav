@@ -26,13 +26,6 @@ export default function Header({ searchQuery, onSearchChange }: HeaderProps) {
           </div>
 
           <div className="flex items-center gap-3 flex-1 justify-end">
-            <div className="hidden lg:flex items-center gap-2 text-xs text-slate-400 bg-void-mid border border-slate-700/70 rounded-lg px-2.5 py-1">
-              <span>🟢 直连流畅</span>
-              <span className="text-slate-600">|</span>
-              <span>🟡 直连较慢</span>
-              <span className="text-slate-600">|</span>
-              <span>🔴 需翻墙</span>
-            </div>
             <div className="w-full max-w-md">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
@@ -53,13 +46,6 @@ export default function Header({ searchQuery, onSearchChange }: HeaderProps) {
               )}
             </div>
           </div>
-          </div>
-        </div>
-        <div className="lg:hidden pb-3">
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-400">
-            <span>🟢 直连流畅</span>
-            <span>🟡 直连较慢</span>
-            <span>🔴 需翻墙</span>
           </div>
         </div>
       </div>
