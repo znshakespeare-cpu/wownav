@@ -6,6 +6,7 @@ export interface Tool {
   description: string;
   tags: string[];
   category: string;
+  access: '🟢' | '🟡' | '🔴';
 }
 
 export interface Category {

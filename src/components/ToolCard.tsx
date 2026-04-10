@@ -53,7 +53,15 @@ export default function ToolCard({ tool, searchQuery }: ToolCardProps) {
             </p>
           </div>
         </div>
-        <ExternalLink className="w-3.5 h-3.5 text-slate-600 group-hover:text-amber-500/70 flex-shrink-0 mt-0.5 transition-colors" />
+        <div className="flex items-center gap-2">
+          <span
+            className="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-200 border border-slate-700/70"
+            title="国内访问状态：🟢直连流畅 / 🟡直连较慢 / 🔴需翻墙"
+          >
+            {tool.access}
+          </span>
+          <ExternalLink className="w-3.5 h-3.5 text-slate-600 group-hover:text-amber-500/70 flex-shrink-0 mt-0.5 transition-colors" />
+        </div>
       </div>
 
       <p className="text-xs text-slate-400 leading-relaxed">

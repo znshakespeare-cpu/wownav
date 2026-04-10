@@ -16,16 +16,24 @@ export default function Header({ searchQuery, onSearchChange }: HeaderProps) {
             </div>
             <div className="hidden sm:block">
               <h1 className="text-lg font-bold tracking-wide text-amber-400 leading-none">
-                魔兽世界工具导航
+                WoW Day Day - 魔兽天天看
               </h1>
-              <p className="text-xs text-slate-500 mt-0.5">World of Warcraft Tools</p>
+              <p className="text-xs text-slate-500 mt-0.5">艾泽拉斯冒险者的每日基地</p>
             </div>
             <div className="sm:hidden">
-              <h1 className="text-base font-bold text-amber-400">WoW 工具站</h1>
+              <h1 className="text-base font-bold text-amber-400">WoW Day Day</h1>
             </div>
           </div>
 
-          <div className="flex-1 max-w-md">
+          <div className="flex items-center gap-3 flex-1 justify-end">
+            <div className="hidden lg:flex items-center gap-2 text-xs text-slate-400 bg-void-mid border border-slate-700/70 rounded-lg px-2.5 py-1">
+              <span>🟢 直连流畅</span>
+              <span className="text-slate-600">|</span>
+              <span>🟡 直连较慢</span>
+              <span className="text-slate-600">|</span>
+              <span>🔴 需翻墙</span>
+            </div>
+            <div className="w-full max-w-md">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
               <input
@@ -44,6 +52,14 @@ export default function Header({ searchQuery, onSearchChange }: HeaderProps) {
                 </button>
               )}
             </div>
+          </div>
+          </div>
+        </div>
+        <div className="lg:hidden pb-3">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-400">
+            <span>🟢 直连流畅</span>
+            <span>🟡 直连较慢</span>
+            <span>🔴 需翻墙</span>
           </div>
         </div>
       </div>
