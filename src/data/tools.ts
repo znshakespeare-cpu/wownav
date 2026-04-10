@@ -3,11 +3,11 @@ import { Tool, Category } from '../types';
 export const categories: Category[] = [
   { id: 'rotation', label: '提升DPS/治疗量', icon: '⚔️' },
   { id: 'progress', label: '大秘境/战绩/进度', icon: '📈' },
-  { id: 'addons', label: '插件和UI工具', icon: '🔧' },
-  { id: 'database', label: '数据库和百科', icon: '📚' },
-  { id: 'collection', label: '收藏和休闲', icon: '🎨' },
-  { id: 'news', label: '官方新闻和前瞻', icon: '📰' },
-  { id: 'community', label: '社区和论坛', icon: '📺' },
+  { id: 'addons', label: '插件工具', icon: '🔧' },
+  { id: 'database', label: '数据百科', icon: '📚' },
+  { id: 'collection', label: '休闲收藏', icon: '🎨' },
+  { id: 'news', label: '官方前瞻', icon: '📰' },
+  { id: 'community', label: '社区论坛', icon: '📺' },
   { id: 'pvp', label: 'PVP', icon: '⚔️' },
 ];
 

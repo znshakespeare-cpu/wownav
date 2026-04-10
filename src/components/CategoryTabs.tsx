@@ -13,10 +13,23 @@ export default function CategoryTabs({
   onCategoryChange,
   counts,
 }: CategoryTabsProps) {
+  const totalTools = Object.values(counts).reduce((sum, n) => sum + n, 0);
+
   return (
     <div className="sticky top-16 z-40 bg-void-dark/95 backdrop-blur-sm border-b border-slate-800/60">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-wrap gap-2 py-3">
+        <div className="flex items-center justify-between gap-3 pt-3 pb-2">
+          <p className="text-base sm:text-lg font-semibold text-slate-200">
+            分类导航，已收录 {totalTools} 个常用工具
+          </p>
+          <div className="flex flex-wrap items-center justify-end gap-x-3 gap-y-1 text-xs text-slate-400">
+            <span>🟢 直连流畅</span>
+            <span>🟡 直连较慢</span>
+            <span>🔴 需翻墙</span>
+          </div>
+        </div>
+
+        <div className="flex flex-wrap gap-2 pb-3">
           {categories.map((cat) => {
             const isActive = activeCategory === cat.id;
             const count = counts[cat.id] ?? 0;
@@ -40,11 +53,6 @@ export default function CategoryTabs({
               </button>
             );
           })}
-          <div className="ml-auto flex flex-wrap items-center justify-end gap-x-3 gap-y-1 text-xs text-slate-400">
-            <span>🟢 直连流畅</span>
-            <span>🟡 直连较慢</span>
-            <span>🔴 需翻墙</span>
-          </div>
         </div>
       </div>
     </div>

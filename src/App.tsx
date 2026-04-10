@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import Header from './components/Header';
+import DataPanel from './components/DataPanel';
 import CategoryTabs from './components/CategoryTabs';
 import ToolGrid from './components/ToolGrid';
 import Footer from './components/Footer';
@@ -47,6 +48,10 @@ export default function App() {
       </div>
 
       <Header searchQuery={searchQuery} onSearchChange={setSearchQuery} />
+      <DataPanel />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="h-px bg-gradient-to-r from-transparent via-amber-500/60 to-transparent" />
+      </div>
 
       <CategoryTabs
         categories={categories}
@@ -60,25 +65,6 @@ export default function App() {
       />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-6 flex items-center justify-between">
-          <div>
-            <h2 className="text-lg font-semibold text-slate-200">分类导航</h2>
-            <p className="text-sm text-slate-500 mt-0.5">
-              {searchQuery
-                ? `搜索「${searchQuery}」找到 ${filteredAllTools.length} 个工具`
-                : `共 ${tools.length} 个工具`}
-            </p>
-          </div>
-          {searchQuery && (
-            <button
-              onClick={() => setSearchQuery('')}
-              className="text-xs text-amber-500 hover:text-amber-400 transition-colors"
-            >
-              清除搜索
-            </button>
-          )}
-        </div>
-
         <div className="space-y-10">
           {categories.map((category) => (
             <section key={category.id} id={`section-${category.id}`} className="scroll-mt-36">
