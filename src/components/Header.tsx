@@ -10,10 +10,8 @@ export default function Header({ searchQuery, onSearchChange }: HeaderProps) {
     <header className="sticky top-0 z-50 border-b border-gold-dim bg-void-dark/90 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 gap-4">
-          <div className="flex items-center gap-3 flex-shrink-0">
-            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center shadow-lg shadow-amber-500/30">
-              <span className="text-lg">⚔️</span>
-            </div>
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <img src="/logo.png" alt="WoW Day Day Logo" className="h-10 w-10 shrink-0" />
             <div className="hidden sm:block">
               <h1 className="text-lg font-bold tracking-wide text-amber-400 leading-none">
                 WoW Day Day - 魔兽天天看
