@@ -13,22 +13,23 @@ export default function Header({ searchQuery, onSearchChange }: HeaderProps) {
   return (
     <header className="sticky top-0 z-50 border-b border-gold-dim bg-void-dark/90 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 min-w-0 items-center justify-between gap-4">
-          <div className="flex min-w-0 min-h-0 flex-1 items-center gap-2">
+        <div className="flex min-w-0 flex-col gap-3 py-3 sm:h-16 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:py-0">
+          <div className="flex min-w-0 items-center gap-2 sm:min-h-0 sm:flex-1">
             <img src="/logo.png" alt="WoW Day Day Logo" className="h-10 w-10 shrink-0" />
             <div className="hidden min-w-0 flex-1 overflow-hidden sm:block">
               <h1 className="overflow-hidden text-ellipsis whitespace-nowrap text-lg font-bold leading-snug tracking-wide">
                 <span className={brandTitleGradient}>WoW Day Day - 魔兽天天看</span>
               </h1>
+              <p className="mt-0.5 text-xs text-slate-500">工具·资讯·攻略 一站式导航</p>
             </div>
-            <div className="min-w-0 sm:hidden">
-              <h1 className="text-base font-bold leading-snug">
+            <div className="min-w-0 flex-1 sm:hidden">
+              <h1 className="overflow-hidden text-ellipsis whitespace-nowrap text-base font-bold leading-snug">
                 <span className={brandTitleGradient}>WoW Day Day</span>
               </h1>
             </div>
           </div>
 
-          <div className="min-w-0 w-full max-w-md sm:shrink-0">
+          <div className="w-full min-w-0 sm:max-w-md sm:shrink-0">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
               <input

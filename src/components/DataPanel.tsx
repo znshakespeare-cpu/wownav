@@ -1,4 +1,5 @@
 import { FormEvent, useEffect, useMemo, useState } from 'react';
+import RealmCombobox from './RealmCombobox';
 
 interface AffixItem {
   id: number;
@@ -373,19 +374,18 @@ export default function DataPanel() {
             onSubmit={onQueryCharacter}
             className="flex w-full min-w-0 flex-col gap-2 mb-3 lg:flex-row lg:items-stretch"
           >
-            <input
-              type="text"
+            <RealmCombobox
               value={realm}
-              onChange={(e) => setRealm(e.target.value)}
-              placeholder="服务器名（如 silvermoon / 银月）"
-              className="w-full min-w-0 flex-1 bg-void-dark border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-amber-500/60"
+              onChange={setRealm}
+              placeholder="服务器（输入中文或英文名搜索）"
+              className="w-full min-w-0 bg-void-dark border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-amber-500/60 lg:min-w-0"
             />
             <input
               type="text"
               value={characterName}
               onChange={(e) => setCharacterName(e.target.value)}
               placeholder="角色名"
-              className="w-full min-w-0 flex-1 bg-void-dark border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-amber-500/60"
+              className="w-full min-w-0 bg-void-dark border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-amber-500/60 lg:flex-1 lg:basis-0"
             />
             <button
               type="submit"
