@@ -138,7 +138,7 @@ export default function CategoryTabs({
       <div
         className={[
           'mx-auto max-w-7xl px-4 transition-all duration-300 sm:px-6 lg:px-8',
-          compactNav ? 'max-md:py-2' : 'max-md:py-3',
+          compactNav ? 'max-md:py-2' : 'max-md:pt-3 max-md:pb-2.5',
           'md:pt-3 md:pb-2',
         ].join(' ')}
       >
@@ -147,6 +147,24 @@ export default function CategoryTabs({
             分类导航，已收录 {totalTools} 个常用工具
           </p>
           <div className="flex flex-wrap items-center justify-end gap-x-3 gap-y-1 text-xs text-slate-400">
+            <span>🟢 直连流畅</span>
+            <span>🟡 直连较慢</span>
+            <span>🔴 需翻墙</span>
+          </div>
+        </div>
+
+        <div
+          className={[
+            'md:hidden',
+            compactNav ? 'mb-1.5 space-y-1.5' : 'mb-2.5 space-y-2',
+          ].join(' ')}
+        >
+          {!compactNav && (
+            <p className="text-xs font-medium leading-snug text-slate-400">
+              分类导航 · 已收录 {totalTools} 个常用工具
+            </p>
+          )}
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-[11px] leading-snug text-slate-500">
             <span>🟢 直连流畅</span>
             <span>🟡 直连较慢</span>
             <span>🔴 需翻墙</span>
