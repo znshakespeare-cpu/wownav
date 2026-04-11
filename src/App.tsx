@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef } from 'react';
 import Header from './components/Header';
 import DataPanel from './components/DataPanel';
 import CategoryTabs from './components/CategoryTabs';
@@ -9,6 +9,7 @@ import { tools, categories } from './data/tools';
 export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState(categories[0]?.id ?? '');
+  const categorySectionRefs = useRef<Record<string, HTMLElement | null>>({});
 
   const q = searchQuery.toLowerCase().trim();
 
@@ -61,13 +62,22 @@ export default function App() {
           const target = document.getElementById(`section-${id}`);
           target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }}
+        onViewportCategoryChange={setActiveCategory}
+        sectionRefs={categorySectionRefs}
         counts={categoryCounts}
       />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="space-y-10">
           {categories.map((category) => (
-            <section key={category.id} id={`section-${category.id}`} className="scroll-mt-36">
+            <section
+              key={category.id}
+              id={`section-${category.id}`}
+              ref={(el) => {
+                categorySectionRefs.current[category.id] = el;
+              }}
+              className="scroll-mt-48 md:scroll-mt-56 lg:scroll-mt-64"
+            >
               <div className="mb-4">
                 <h3 className="text-base sm:text-lg font-semibold text-slate-200">
                   {category.icon} {category.label}
@@ -80,7 +90,7 @@ export default function App() {
             </section>
           ))}
 
-          <section id="section-all-tools" className="scroll-mt-36 pt-2">
+          <section id="section-all-tools" className="scroll-mt-48 pt-2 md:scroll-mt-56 lg:scroll-mt-64">
             <div className="mb-4">
               <h3 className="text-base sm:text-lg font-semibold text-slate-200">🌟 全部工具卡片</h3>
               <p className="text-xs text-slate-500 mt-1">

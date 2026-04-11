@@ -2,7 +2,7 @@ import { Tool, Category } from '../types';
 
 export const categories: Category[] = [
   { id: 'rotation', label: '提升DPS/治疗量', icon: '⚔️' },
-  { id: 'progress', label: '大秘境/战绩/进度', icon: '📈' },
+  { id: 'progress', label: '大秘境工具/排名', icon: '📈' },
   { id: 'addons', label: '插件工具', icon: '🔧' },
   { id: 'database', label: '数据百科', icon: '📚' },
   { id: 'collection', label: '休闲收藏', icon: '🎨' },
@@ -101,16 +101,6 @@ export const tools: Tool[] = [
     tags: ['大秘境', '评分'],
     category: 'progress',
     access: '🟡',
-  },
-  {
-    id: 'wowprogress',
-    icon: '🏰',
-    name: 'WoWProgress',
-    url: 'https://www.wowprogress.com',
-    description: '公会团本进度排名',
-    tags: ['公会', '进度'],
-    category: 'progress',
-    access: '🟢',
   },
   {
     id: 'keystone-guru',

@@ -178,6 +178,10 @@ export default function DataPanel() {
   const [runsUpdatedAt, setRunsUpdatedAt] = useState('');
   const [raidUpdatedAt, setRaidUpdatedAt] = useState('');
   const [raidTotalBosses, setRaidTotalBosses] = useState(0);
+  /** 用于「更多」跳转 Raider.io 大秘境页面（与 API season 一致） */
+  const [mythicSeasonSlug, setMythicSeasonSlug] = useState<string | null>(null);
+  /** 用于「更多」跳转 Raider.io 团本世界榜（与 API raid slug 一致） */
+  const [raidWorldSlug, setRaidWorldSlug] = useState<string | null>(null);
 
   const [realm, setRealm] = useState('');
   const [characterName, setCharacterName] = useState('');
@@ -207,6 +211,7 @@ export default function DataPanel() {
         setDungeons(seasonDungeons);
 
         const seasonSlug = mainSeason?.slug ?? 'season-mn-1';
+        setMythicSeasonSlug(seasonSlug);
         try {
           const runsRes = await fetch(`https://raider.io/api/v1/mythic-plus/runs?season=${seasonSlug}&region=cn&dungeon=all&affixes=all&page=0`);
           if (!runsRes.ok) throw new Error('runs');
@@ -234,6 +239,7 @@ export default function DataPanel() {
         const currentRaidSlug = currentRaid?.slug;
         if (!currentRaidSlug) throw new Error('raid-slug-missing');
         setRaidTotalBosses(currentRaid?.encounters?.length ?? 0);
+        setRaidWorldSlug(currentRaidSlug);
 
         const raidRes = await fetch(`https://raider.io/api/v1/raiding/raid-rankings?raid=${currentRaidSlug}&difficulty=mythic&region=world`);
         if (!raidRes.ok) throw new Error('raid-rankings');
@@ -294,6 +300,25 @@ export default function DataPanel() {
     [raid, raidTotalBosses]
   );
 
+  const raiderMythicRunsMoreHref = useMemo(
+    () =>
+      mythicSeasonSlug
+        ? `https://raider.io/mythic-plus-runs/${encodeURIComponent(mythicSeasonSlug)}/region/cn`
+        : null,
+    [mythicSeasonSlug],
+  );
+
+  const raiderRaidWorldMoreHref = useMemo(
+    () =>
+      raidWorldSlug
+        ? `https://raider.io/${encodeURIComponent(raidWorldSlug)}/rankings/world/mythic/0`
+        : null,
+    [raidWorldSlug],
+  );
+
+  const raiderMoreLinkClass =
+    'absolute right-4 top-4 z-10 shrink-0 rounded-md border border-amber-500/35 bg-amber-500/10 px-2 py-0.5 text-[11px] font-medium text-amber-300 hover:bg-amber-500/20 transition-colors';
+
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
@@ -344,24 +369,27 @@ export default function DataPanel() {
 
         <div className={panelCardClass('lg:col-span-2')}>
           <h3 className="text-sm font-semibold text-slate-100 mb-3">🔍 角色查询</h3>
-          <form onSubmit={onQueryCharacter} className="flex flex-col sm:flex-row gap-2 mb-3">
+          <form
+            onSubmit={onQueryCharacter}
+            className="flex w-full min-w-0 flex-col gap-2 mb-3 lg:flex-row lg:items-stretch"
+          >
             <input
               type="text"
               value={realm}
               onChange={(e) => setRealm(e.target.value)}
               placeholder="服务器名（如 silvermoon / 银月）"
-              className="flex-1 bg-void-dark border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-amber-500/60"
+              className="w-full min-w-0 flex-1 bg-void-dark border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-amber-500/60"
             />
             <input
               type="text"
               value={characterName}
               onChange={(e) => setCharacterName(e.target.value)}
               placeholder="角色名"
-              className="flex-1 bg-void-dark border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-amber-500/60"
+              className="w-full min-w-0 flex-1 bg-void-dark border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-amber-500/60"
             />
             <button
               type="submit"
-              className="px-4 py-2 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30 transition-colors text-sm font-medium"
+              className="w-full shrink-0 px-4 py-2 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30 transition-colors text-sm font-medium lg:w-auto"
             >
               {queryLoading ? '查询中...' : '查询'}
             </button>
@@ -416,12 +444,22 @@ export default function DataPanel() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
-        <div className={panelCardClass()}>
-          <div className="mb-3 flex items-center justify-between gap-2">
+        <div className={`${panelCardClass()} relative`}>
+          {raiderMythicRunsMoreHref ? (
+            <a
+              href={raiderMythicRunsMoreHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={raiderMoreLinkClass}
+            >
+              更多
+            </a>
+          ) : null}
+          <div
+            className={`mb-3 flex flex-wrap items-baseline gap-x-2 gap-y-1 ${raiderMythicRunsMoreHref ? 'pr-[4.25rem]' : ''}`}
+          >
             <h3 className="text-sm font-semibold text-slate-100">🏆 国服大秘境排行 TOP10</h3>
-            <span className="text-[11px] text-slate-500">
-              更新时间：{runsUpdatedAt || '-'}
-            </span>
+            <span className="text-[11px] font-normal text-slate-500">更新时间：{runsUpdatedAt || '-'}</span>
           </div>
           {loadingRuns ? (
             <p className="text-sm text-slate-400">加载中...</p>
@@ -470,12 +508,22 @@ export default function DataPanel() {
           )}
         </div>
 
-        <div className={panelCardClass()}>
-          <div className="mb-3 flex items-center justify-between gap-2">
+        <div className={`${panelCardClass()} relative`}>
+          {raiderRaidWorldMoreHref ? (
+            <a
+              href={raiderRaidWorldMoreHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={raiderMoreLinkClass}
+            >
+              更多
+            </a>
+          ) : null}
+          <div
+            className={`mb-3 flex flex-wrap items-baseline gap-x-2 gap-y-1 ${raiderRaidWorldMoreHref ? 'pr-[4.25rem]' : ''}`}
+          >
             <h3 className="text-sm font-semibold text-slate-100">🌍 全球团本进度</h3>
-            <span className="text-[11px] text-slate-500">
-              更新时间：{raidUpdatedAt || '-'}
-            </span>
+            <span className="text-[11px] font-normal text-slate-500">更新时间：{raidUpdatedAt || '-'}</span>
           </div>
           {loadingRaid ? (
             <p className="text-sm text-slate-400">加载中...</p>
