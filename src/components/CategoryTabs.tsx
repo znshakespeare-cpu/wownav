@@ -130,7 +130,7 @@ export default function CategoryTabs({
   return (
     <div
       className={[
-        'sticky z-40 border-b border-slate-800/60 bg-void-dark/95 backdrop-blur-sm transition-all duration-300 max-sm:top-[7.5rem] sm:top-16',
+        'sticky z-40 border-b border-slate-800/60 bg-void-dark/95 backdrop-blur-sm transition-all duration-300 max-sm:top-[8.25rem] sm:top-16',
         compactNav ? 'max-md:shadow-[0_8px_24px_rgba(0,0,0,0.35)]' : '',
       ].join(' ')}
     >

@@ -16,16 +16,11 @@ export default function Header({ searchQuery, onSearchChange }: HeaderProps) {
         <div className="flex min-w-0 flex-col gap-3 py-3 sm:h-16 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:py-0">
           <div className="flex min-w-0 items-center gap-2 sm:min-h-0 sm:flex-1">
             <img src="/logo.png" alt="WoW Day Day Logo" className="h-10 w-10 shrink-0" />
-            <div className="hidden min-w-0 flex-1 overflow-hidden sm:block">
-              <h1 className="overflow-hidden text-ellipsis whitespace-nowrap text-lg font-bold leading-snug tracking-wide">
+            <div className="min-w-0 flex-1 overflow-hidden">
+              <h1 className="overflow-hidden text-ellipsis whitespace-nowrap text-base font-bold leading-snug tracking-wide sm:text-lg">
                 <span className={brandTitleGradient}>WoW Day Day - 魔兽天天看</span>
               </h1>
               <p className="mt-0.5 text-xs text-slate-500">工具·资讯·攻略 一站式导航</p>
-            </div>
-            <div className="min-w-0 flex-1 sm:hidden">
-              <h1 className="overflow-hidden text-ellipsis whitespace-nowrap text-base font-bold leading-snug">
-                <span className={brandTitleGradient}>WoW Day Day</span>
-              </h1>
             </div>
           </div>
 
