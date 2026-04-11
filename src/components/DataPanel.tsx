@@ -214,7 +214,7 @@ export default function DataPanel() {
         const seasonSlug = mainSeason?.slug ?? 'season-mn-1';
         setMythicSeasonSlug(seasonSlug);
         try {
-          const runsRes = await fetch(`https://raider.io/api/v1/mythic-plus/runs?season=${seasonSlug}&region=cn&dungeon=all&affixes=all&page=0`);
+          const runsRes = await fetch(`https://raider.io/api/v1/mythic-plus/runs?season=${seasonSlug}&region=world&dungeon=all&affixes=all&page=0`);
           if (!runsRes.ok) throw new Error('runs');
           const runsData: RunsResponse = await runsRes.json();
           setRuns((runsData.rankings ?? []).slice(0, 10));
@@ -304,7 +304,7 @@ export default function DataPanel() {
   const raiderMythicRunsMoreHref = useMemo(
     () =>
       mythicSeasonSlug
-        ? `https://raider.io/cn/mythic-plus-rankings/${encodeURIComponent(mythicSeasonSlug)}/all/world/leaderboards`
+        ? `https://raider.io/mythic-plus-rankings/${encodeURIComponent(mythicSeasonSlug)}/all/world/leaderboards`
         : null,
     [mythicSeasonSlug],
   );
@@ -458,7 +458,7 @@ export default function DataPanel() {
           <div
             className={`mb-3 flex flex-wrap items-baseline gap-x-2 gap-y-1 ${raiderMythicRunsMoreHref ? 'pr-[4.25rem]' : ''}`}
           >
-            <h3 className="text-sm font-semibold text-slate-100">🏆 国服大秘境排行 TOP10</h3>
+            <h3 className="text-sm font-semibold text-slate-100">🏆 大秘境排行 TOP10</h3>
             <span className="text-[11px] font-normal text-slate-500">更新时间：{runsUpdatedAt || '-'}</span>
           </div>
           {loadingRuns ? (
