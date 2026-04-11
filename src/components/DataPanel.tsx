@@ -303,7 +303,7 @@ export default function DataPanel() {
   const raiderMythicRunsMoreHref = useMemo(
     () =>
       mythicSeasonSlug
-        ? `https://raider.io/mythic-plus-runs/${encodeURIComponent(mythicSeasonSlug)}/region/cn`
+        ? `https://raider.io/cn/mythic-plus-rankings/${encodeURIComponent(mythicSeasonSlug)}/all/world/leaderboards`
         : null,
     [mythicSeasonSlug],
   );
