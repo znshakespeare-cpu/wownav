@@ -79,8 +79,9 @@ export default function App() {
               className="scroll-mt-48 md:scroll-mt-56 lg:scroll-mt-64"
             >
               <div className="mb-4">
-                <h3 className="text-base sm:text-lg font-semibold text-slate-200">
-                  {category.icon} {category.label}
+                <h3 className="flex items-center gap-2 text-base sm:text-lg font-semibold text-slate-200">
+                  <img src={category.icon} alt="" className="h-10 w-10 shrink-0" />
+                  {category.label}
                 </h3>
                 <p className="text-xs text-slate-500 mt-1">
                   {toolsByCategory[category.id]?.length ?? 0} 个工具

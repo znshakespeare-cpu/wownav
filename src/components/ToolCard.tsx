@@ -1,5 +1,6 @@
 import { ExternalLink } from 'lucide-react';
 import { Tool } from '../types';
+import ToolSiteIcon from './ToolSiteIcon';
 
 interface ToolCardProps {
   tool: Tool;
@@ -41,8 +42,8 @@ export default function ToolCard({ tool, searchQuery }: ToolCardProps) {
 
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-xl flex-shrink-0 group-hover:border-amber-500/30 transition-colors">
-            {tool.icon}
+          <div className="w-10 h-10 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center flex-shrink-0 overflow-hidden group-hover:border-amber-500/30 transition-colors">
+            <ToolSiteIcon url={tool.url} fallback={tool.icon} />
           </div>
           <div>
             <h3 className="text-sm font-semibold text-slate-100 group-hover:text-amber-400 transition-colors leading-tight">

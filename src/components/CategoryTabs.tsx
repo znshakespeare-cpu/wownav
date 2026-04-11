@@ -125,7 +125,8 @@ export default function CategoryTabs({
     strip.scrollTo({ left: Math.max(0, left - pad), behavior: 'auto' });
   }, [activeCategory, compactNav]);
 
-  const scrollHideRow = 'max-md:[scrollbar-width:none] max-md:[-ms-overflow-style:none] max-md:[&::-webkit-scrollbar]:hidden';
+  const scrollHideRow =
+    'max-md:[scrollbar-width:none] max-md:[-ms-overflow-style:none] max-md:[&::-webkit-scrollbar]:hidden lg:[scrollbar-width:none] lg:[-ms-overflow-style:none] lg:[&::-webkit-scrollbar]:hidden';
 
   return (
     <div
@@ -155,12 +156,14 @@ export default function CategoryTabs({
         <div
           ref={tabStripRef}
           className={[
-            'flex gap-2 transition-all duration-300',
+            'flex gap-1.5 transition-all duration-300',
+            "after:shrink-0 after:content-[''] after:w-3",
             'max-md:flex-nowrap max-md:overflow-x-auto max-md:pb-2',
-            'max-md:-mx-4 max-md:px-4 sm:max-md:-mx-6 sm:max-md:px-6',
+            'max-md:-mx-4 max-md:pl-4 max-md:pr-5 sm:max-md:-mx-6 sm:max-md:pl-6 sm:max-md:pr-7',
             'md:max-lg:flex-nowrap md:max-lg:overflow-x-auto md:max-lg:pb-3',
-            'md:max-lg:-mx-6 md:max-lg:px-6 lg:mx-0 lg:px-0',
-            'lg:flex-wrap lg:overflow-visible lg:pb-3',
+            'md:max-lg:-mx-6 md:max-lg:pl-6 md:max-lg:pr-8',
+            'lg:flex-nowrap lg:overflow-x-auto lg:pb-3',
+            'lg:-mx-8 lg:pl-8 lg:pr-10',
             scrollHideRow,
             compactNav ? 'max-md:pb-1.5 max-md:pt-0' : '',
           ].join(' ')}
@@ -176,19 +179,19 @@ export default function CategoryTabs({
                 onClick={() => handleTabClick(cat.id)}
                 className={[
                   'flex flex-shrink-0 items-center rounded-lg border font-medium whitespace-nowrap transition-all duration-300',
-                  'gap-1.5 px-3 py-1.5 text-sm',
-                  'md:max-lg:gap-1.5 md:max-lg:px-3 md:max-lg:py-1.5',
+                  'gap-1.5 px-2.5 py-1.5 text-sm',
+                  'md:max-lg:gap-1.5 md:max-lg:px-2.5 md:max-lg:py-1.5',
                   compactNav
                     ? 'max-md:h-11 max-md:min-h-[44px] max-md:min-w-[44px] max-md:justify-center max-md:gap-0 max-md:px-2.5 max-md:py-2'
-                    : 'max-md:gap-2 max-md:px-3.5 max-md:py-2.5',
-                  'lg:gap-1.5 lg:px-3 lg:py-1.5',
+                    : 'max-md:gap-1.5 max-md:px-3 max-md:py-2.5',
+                  'lg:gap-1.5 lg:px-2.5 lg:py-1.5',
                   isActive
                     ? 'border-amber-500/40 bg-amber-500/20 text-amber-400 shadow-sm shadow-amber-500/20'
                     : 'border-transparent text-slate-400 hover:bg-slate-800/60 hover:text-slate-200',
                 ].join(' ')}
               >
-                <span className={['shrink-0 leading-none', compactNav ? 'max-md:text-lg' : ''].join(' ')}>
-                  {cat.icon}
+                <span className="flex shrink-0 items-center leading-none">
+                  <img src={cat.icon} alt={cat.label} className="h-10 w-10" />
                 </span>
                 <span
                   className={[

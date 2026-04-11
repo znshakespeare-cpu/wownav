@@ -1,14 +1,14 @@
 import { Tool, Category } from '../types';
 
 export const categories: Category[] = [
-  { id: 'rotation', label: '提升DPS/治疗量', icon: '⚔️' },
-  { id: 'progress', label: '大秘境工具/排名', icon: '📈' },
-  { id: 'addons', label: '插件工具', icon: '🔧' },
-  { id: 'database', label: '数据百科', icon: '📚' },
-  { id: 'collection', label: '休闲收藏', icon: '🎨' },
-  { id: 'news', label: '官方前瞻', icon: '📰' },
-  { id: 'community', label: '社区论坛', icon: '📺' },
-  { id: 'pvp', label: 'PVP', icon: '⚔️' },
+  { id: 'rotation', label: '提升实力', icon: '/icons/dps.png' },
+  { id: 'progress', label: '大秘境', icon: '/icons/mythic.png' },
+  { id: 'addons', label: '插件工具', icon: '/icons/addon.png' },
+  { id: 'news', label: '官方前瞻', icon: '/icons/news.png' },
+  { id: 'community', label: '社区论坛', icon: '/icons/forum.png' },
+  { id: 'database', label: '数据百科', icon: '/icons/wiki.png' },
+  { id: 'collection', label: '休闲收藏', icon: '/icons/collection.png' },
+  { id: 'pvp', label: 'PVP', icon: '/icons/pvp.png' },
 ];
 
 export const tools: Tool[] = [
