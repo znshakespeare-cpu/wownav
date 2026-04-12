@@ -177,6 +177,17 @@ interface AffixesResponse {
   affix_details?: AffixItem[];
 }
 
+interface BluePostCheckPost {
+  title: string;
+  time: string;
+  author: string;
+}
+
+interface BluePostCheckResponse {
+  success: boolean;
+  posts?: BluePostCheckPost[];
+}
+
 const AFFIX_ZH_MAP: Record<string, string> = {
   Fortified: '强韧',
   Tyrannical: '残暴',
@@ -206,17 +217,12 @@ const AFFIX_ZH_MAP: Record<string, string> = {
   Afflicted: '受难',
   Entangling: '纠缠',
   Incorporeal: '虚体',
-  'Xal\'atath\'s Bargain: Ascendant': '萨拉塔斯交易：扬升',
   "Xal'atath's Bargain: Ascendant": '萨拉塔斯交易：扬升',
-  'Xal\'atath\'s Bargain: Oblivion': '萨拉塔斯交易：湮灭',
   "Xal'atath's Bargain: Oblivion": '萨拉塔斯交易：湮灭',
-  'Xal\'atath\'s Bargain: Devourer': '萨拉塔斯交易：吞噬',
   "Xal'atath's Bargain: Devourer": '萨拉塔斯交易：吞噬',
   "Xal'atath's Bargain: Devour": '萨拉塔斯的交易：吞噬',
   "Xal'atath's Guile": '萨拉塔斯的诡计',
-  'Xal\'atath\'s Bargain: Voidbound': '萨拉塔斯交易：虚空束缚',
   "Xal'atath's Bargain: Voidbound": '萨拉塔斯交易：虚空束缚',
-  'Xal\'atath\'s Bargain: Pulsar': '萨拉塔斯交易：脉冲星',
   "Xal'atath's Bargain: Pulsar": '萨拉塔斯交易：脉冲星',
   'Xal\'atath\'s Bargain: Obliterated': '萨拉塔斯交易：湮灭',
   'Xal\'atath\'s Bargain: Frenzied': '萨拉塔斯交易：狂乱',
@@ -469,6 +475,44 @@ export default function DataPanel() {
   const [queryLoading, setQueryLoading] = useState(false);
   const [queryError, setQueryError] = useState('');
   const [character, setCharacter] = useState<CharacterResponse | null>(null);
+
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [bluePostCheckLoading, setBluePostCheckLoading] = useState(true);
+
+  useEffect(() => {
+    const checkBluePosts = async () => {
+      try {
+        const response = await fetch('/api/bluepost-check');
+        if (!response.ok) return;
+        const data = (await response.json()) as BluePostCheckResponse;
+        if (!data.success || !data.posts || data.posts.length === 0) return;
+
+        const lastClickTime = localStorage.getItem('bluepost_last_click');
+        if (!lastClickTime) {
+          setUnreadCount(Math.min(data.posts.length, 5));
+        } else {
+          const lastClick = new Date(lastClickTime).getTime();
+          const newPosts = data.posts.filter((post) => {
+            const postTime = new Date(post.time).getTime();
+            return postTime > lastClick;
+          });
+          setUnreadCount(newPosts.length);
+        }
+      } catch (e) {
+        console.log('BluePosts check failed:', e);
+      } finally {
+        setBluePostCheckLoading(false);
+      }
+    };
+
+    checkBluePosts();
+  }, []);
+
+  const handleBluePostClick = (url: string) => {
+    localStorage.setItem('bluepost_last_click', new Date().toISOString());
+    setUnreadCount(0);
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
 
   useEffect(() => {
     const loadAll = async () => {
@@ -865,16 +909,24 @@ export default function DataPanel() {
         <div
           className={`${panelCardClass()} order-6 md:order-none md:col-start-1 md:row-start-1 lg:col-span-2 lg:col-start-1 lg:row-start-1 h-full flex flex-col`}
         >
-          <h3 className="text-sm font-semibold text-slate-100 mb-2">📰 最新蓝贴</h3>
+          <h3 className="text-sm font-semibold leading-tight text-slate-100 mb-2">
+            <div className="flex items-center gap-1.5">
+              <span>📰 最新蓝贴</span>
+              {!bluePostCheckLoading && unreadCount > 0 ? (
+                <span className="inline-flex h-3.5 min-h-3.5 shrink-0 items-center justify-center whitespace-nowrap rounded-full bg-red-500 px-1 text-[10px] font-bold leading-none text-white animate-pulse">
+                  {unreadCount > 9 ? '9+' : unreadCount}
+                </span>
+              ) : null}
+            </div>
+          </h3>
           <p className="text-xs leading-relaxed text-slate-400 mb-3">暴雪官方蓝贴，中文翻译实时更新</p>
           <ul className="flex flex-col gap-2 flex-1 min-h-0">
             {bluePostLinks.map((item) => (
               <li key={item.url}>
-                <a
-                  href={item.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center gap-3 rounded-lg border border-slate-700/80 bg-slate-900/35 px-3 py-2.5 transition-all hover:border-amber-500/40 hover:bg-slate-800/55"
+                <button
+                  type="button"
+                  onClick={() => handleBluePostClick(item.url)}
+                  className="group flex w-full cursor-pointer items-center gap-3 rounded-lg border border-slate-700/80 bg-slate-900/35 px-3 py-2.5 text-left transition-all hover:border-amber-500/40 hover:bg-slate-800/55"
                 >
                   <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-slate-700/70 bg-slate-900/80 group-hover:border-amber-500/30">
                     <ToolSiteIcon url={item.url} fallback={item.fallback} imgClassName="h-6 w-6 object-contain" />
@@ -882,7 +934,7 @@ export default function DataPanel() {
                   <span className="min-w-0 flex-1 text-xs font-semibold text-slate-200 group-hover:text-amber-200 leading-snug">
                     {item.label}
                   </span>
-                </a>
+                </button>
               </li>
             ))}
           </ul>
