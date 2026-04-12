@@ -44,7 +44,7 @@ export const tools: Tool[] = [
   },
   {
     id: 'archon',
-    icon: '👑',
+    icon: '⬆️',
     name: 'Archon.gg',
     url: 'https://www.archon.gg/wow',
     description: '基于顶尖玩家数据的构建推荐',

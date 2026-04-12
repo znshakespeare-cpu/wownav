@@ -1,4 +1,3 @@
-import { ExternalLink } from 'lucide-react';
 import { Tool } from '../types';
 import ToolSiteIcon from './ToolSiteIcon';
 
@@ -61,7 +60,12 @@ export default function ToolCard({ tool, searchQuery }: ToolCardProps) {
           >
             {tool.access}
           </span>
-          <ExternalLink className="w-3.5 h-3.5 text-slate-600 group-hover:text-amber-500/70 flex-shrink-0 mt-0.5 transition-colors" />
+          <span
+            className="shrink-0 text-sm leading-none text-amber-500/50 group-hover:text-amber-400/90 mt-0.5 transition-colors select-none"
+            aria-hidden
+          >
+            ↗
+          </span>
         </div>
       </div>
 
